@@ -76,32 +76,44 @@ def main():
     """
     Main function.
     """
-    # Create a BtManager object
-    bt_manager = BtManager("COM10")
+    try:
+        # Create a BtManager object
+        bt_manager = BtManager("COM10")
 
-    # Add a data parsed handler
-    bt_manager.add_data_parsed_handler(lambda sender, e: {
-        points.append(e.raw_value),
-        plt.clf(),
-        plt.plot(points),
-        plt.draw(),
-        plt.pause(0.001),
+        # Add a data parsed handler
+        bt_manager.add_data_parsed_handler(lambda sender, e: {
+            points.append(e.raw_value),
+            plt.clf(),
+            plt.plot(points),
+            plt.draw(),
+            plt.pause(0.001),
 
-        # Check focus threshold
-        check_focus_threshold(points),
+            # Check focus threshold
+            check_focus_threshold(points),
 
-        # Write to CSV
-        append_to_file(SAVE_FILE_NAME, points)
-    })
+            # Write to CSV
+            append_to_file(SAVE_FILE_NAME, points)
+        })
 
-    # Start the BtManager
-    bt_manager.start()
+        # Start the BtManager
+        bt_manager.start()
 
-    # Show the plot
-    plt.show()
+        # Show the plot
+        plt.show()
 
-    # Stop the BtManager
-    bt_manager.stop()
+        # Stop the BtManager
+        bt_manager.stop()
+    except serial.SerialException as e:
+        print(f"Error: {e}")
+        print("Running in simulation mode.")
+        while True:
+            # Simulate brainwave data
+            points.append(np.random.randint(0, 100))
+            plt.clf()
+            plt.plot(points)
+            plt.draw()
+            plt.pause(0.1)
+            time.sleep(0.1)
 
 if __name__ == "__main__":
     main()

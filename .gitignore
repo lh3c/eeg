@@ -1,1 +1,3 @@
 BrainPlotter/bin/Debug/
+__pycache__/
+venv/
