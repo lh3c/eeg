@@ -42,6 +42,8 @@ class BtManager:
 
     def start(self):
         self.serial = serial.Serial(self.port, self.baud_rate)
+        self.serial.dtr = True
+        self.serial.rts = True
         self.is_running = True
         self.thread = threading.Thread(target=self._read_data)
         self.thread.start()
