@@ -78,7 +78,7 @@ def main():
     """
     try:
         # Create a BtManager object
-        bt_manager = BtManager("COM10")
+        bt_manager = BtManager("/dev/rfcomm0")
 
         # Add a data parsed handler
         bt_manager.add_data_parsed_handler(lambda sender, e: {
